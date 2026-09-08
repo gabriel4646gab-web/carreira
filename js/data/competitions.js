@@ -3,7 +3,7 @@ const COMPETITIONS_DATA = {
   'Brasileirão Série A': {
     name: 'Brasileirão Série A',
     type: 'league',
-    rounds: 38,
+    rounds: 14,
     country: 'Brasil',
     prestige: 82,
     clubs: ['fla', 'pal', 'cam', 'bot', 'sao', 'cor', 'flu', 'gre', 'int', 'cru', 'bah', 'vas', 'for', 'cap', 'rbb', 'vit', 'cui', 'cri', 'acg', 'juv']
@@ -11,7 +11,7 @@ const COMPETITIONS_DATA = {
   'Brasileirão Série B': {
     name: 'Brasileirão Série B',
     type: 'league',
-    rounds: 38,
+    rounds: 14,
     country: 'Brasil',
     prestige: 68,
     clubs: ['san', 'spo', 'cea', 'cor_pr', 'goi', 'ame_mg', 'ava', 'nov', 'vil', 'mir', 'pon', 'gua', 'ope', 'pay', 'crb', 'itu', 'cha', 'ama', 'bru', 'bot_sp']
@@ -19,7 +19,7 @@ const COMPETITIONS_DATA = {
   'Premier League': {
     name: 'Premier League',
     type: 'league',
-    rounds: 38,
+    rounds: 14,
     country: 'Inglaterra',
     prestige: 95,
     clubs: ['mci', 'ars', 'liv', 'che', 'mun', 'tot', 'new', 'avl', 'bha', 'whu']
@@ -27,7 +27,7 @@ const COMPETITIONS_DATA = {
   'EFL Championship': {
     name: 'EFL Championship',
     type: 'league',
-    rounds: 38,
+    rounds: 14,
     country: 'Inglaterra',
     prestige: 74,
     clubs: ['lee', 'bur', 'shu', 'nor', 'wba', 'sun']
@@ -35,7 +35,7 @@ const COMPETITIONS_DATA = {
   'La Liga': {
     name: 'La Liga',
     type: 'league',
-    rounds: 38,
+    rounds: 14,
     country: 'Espanha',
     prestige: 92,
     clubs: ['rma', 'bar', 'atm', 'rso', 'ath', 'vil_es', 'bet', 'sev', 'gir']
@@ -43,7 +43,7 @@ const COMPETITIONS_DATA = {
   'Serie A Italiana': {
     name: 'Serie A Italiana',
     type: 'league',
-    rounds: 38,
+    rounds: 14,
     country: 'Itália',
     prestige: 89,
     clubs: ['int_it', 'juv_it', 'mil', 'nap', 'ata', 'rom', 'laz']
@@ -51,7 +51,7 @@ const COMPETITIONS_DATA = {
   'Bundesliga': {
     name: 'Bundesliga',
     type: 'league',
-    rounds: 34,
+    rounds: 14,
     country: 'Alemanha',
     prestige: 90,
     clubs: ['bay', 'lev', 'dor', 'rbl', 'stu']

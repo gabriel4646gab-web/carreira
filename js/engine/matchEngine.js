@@ -102,21 +102,21 @@ class MatchEngine {
     const effectiveAttr = primeVal * 0.7 + secVal * 0.3;
 
     // Modificadores de Contexto
-    const fatiguePenalty = (p.fatigue / 100) * 18;
-    const energyBonus = (p.fitness / 100) * 8;
+    const fatiguePenalty = (p.fatigue / 100) * 14;
+    const energyBonus = (p.fitness / 100) * 10;
     const moraleMod = (p.morale - 75) * 0.15;
     const confidenceMod = (p.confidence - 75) * 0.2;
-    const minutePressure = this.minute >= 75 ? 6 : 0;
-    const awayPressure = !this.isHome ? 5 : 0;
-    const oppDefensePower = (this.oppClub.ovr - 65) * 0.45;
+    const minutePressure = this.minute >= 80 ? 4 : 0;
+    const awayPressure = !this.isHome ? 3 : 0;
+    const oppDefensePower = Math.max(0, (this.oppClub.ovr - 68) * 0.3);
 
     let successChance = effectiveAttr - choice.difficulty + energyBonus - fatiguePenalty + moraleMod + confidenceMod - minutePressure - awayPressure - oppDefensePower;
-    successChance = Math.max(12, Math.min(88, successChance + 45));
+    successChance = Math.max(22, Math.min(94, successChance + 54));
 
     const roll = Math.random() * 100;
-    const isPerfect = roll < (successChance * 0.45);
+    const isPerfect = roll < (successChance * 0.52);
     const isSuccess = roll < successChance;
-    const isCloseFail = roll < (successChance + 18);
+    const isCloseFail = roll < (successChance + 22);
 
     this.resolveActionOutcome(choice, isSuccess, isPerfect, isCloseFail, p);
 
@@ -442,10 +442,10 @@ class MatchEngine {
     const userClubOvr = this.userClub.ovr;
     const oppOvr = this.oppClub.ovr;
     
-    // Diferença de força real (não artificialmente nivelada)
+    // Diferença de força equilibrada e justa (evita bots perfeitos e punição injusta)
     const ovrDiff = userClubOvr - oppOvr;
-    const userGoalProb = Math.max(4, Math.min(26, 12 + ovrDiff * 0.8));
-    const oppGoalProb = Math.max(4, Math.min(26, 12 - ovrDiff * 0.8));
+    const userGoalProb = Math.max(7, Math.min(28, 14 + ovrDiff * 0.6));
+    const oppGoalProb = Math.max(3, Math.min(18, 9 - ovrDiff * 0.5));
 
     // Pausas interativas para tomada de decisão (no 1º tempo e no 2º tempo)
     if (this.career.type === 'player' && !this.playerMatchStats.isSubstituted && !this.playerMatchStats.isInjuredInMatch) {
@@ -476,19 +476,19 @@ class MatchEngine {
       this.eventsLog.unshift({
         minute: this.minute,
         type: 'opp_goal',
-        text: `⚽ [${this.minute}'] GOL DO ${this.oppClub.name.toUpperCase()}! Cobrança precisa deixa a defesa para trás.`,
+        text: `⚽ [${this.minute}'] Gol do ${this.oppClub.name}. Finalização no canto sem chances de defesa.`,
         isUser: false
       });
       if (window.audioEngine) {
         window.audioEngine.playNet();
         setTimeout(() => window.audioEngine.playBoo(), 200);
       }
-      if (this.career.type === 'player') this.playerMatchStats.rating = Math.max(4.5, this.playerMatchStats.rating - 0.2);
-    } else if (roll < (userGoalProb + oppGoalProb + 10)) {
+      if (this.career.type === 'player') this.playerMatchStats.rating = Math.max(4.5, this.playerMatchStats.rating - 0.1);
+    } else if (roll < (userGoalProb + oppGoalProb + 8)) {
       this.eventsLog.unshift({
         minute: this.minute,
         type: 'foul',
-        text: `🟨 [${this.minute}'] Falta marcada pelo árbitro após disputa ríspida pela posse de bola.`,
+        text: `🟨 [${this.minute}'] Disputa acirrada de bola no meio-campo com falta marcada pelo árbitro.`,
         isUser: false
       });
       if (window.audioEngine) window.audioEngine.playWhistle('foul');
@@ -570,8 +570,59 @@ class MatchEngine {
       p.careerStats.goals += this.playerMatchStats.goals;
       p.careerStats.assists += this.playerMatchStats.assists;
 
-      p.fatigue = Math.min(100, p.fatigue + Math.round(18 * this.matchContext.fatigueRate));
-      p.fitness = Math.max(20, p.fitness - 25);
+      p.fatigue = Math.min(100, p.fatigue + Math.round(15 * this.matchContext.fatigueRate));
+      p.fitness = Math.max(20, p.fitness - 20);
+
+      // =======================================================================
+      // SISTEMA DE RECOMPENSA DE MOEDAS POR PERFORMANCE
+      // =======================================================================
+      let coinsEarned = 100;
+      const breakdown = [
+        { label: 'Participação na partida', amount: 100 }
+      ];
+
+      if (userClubWon) {
+        coinsEarned += 150;
+        breakdown.push({ label: 'Vitória da equipe', amount: 150 });
+      } else if (isDraw) {
+        coinsEarned += 60;
+        breakdown.push({ label: 'Empate conquistado', amount: 60 });
+      }
+
+      if (this.playerMatchStats.goals > 0) {
+        const gAmount = this.playerMatchStats.goals * 80;
+        coinsEarned += gAmount;
+        breakdown.push({ label: `Gols marcados (${this.playerMatchStats.goals}x)`, amount: gAmount });
+      }
+
+      if (this.playerMatchStats.assists > 0) {
+        const aAmount = this.playerMatchStats.assists * 50;
+        coinsEarned += aAmount;
+        breakdown.push({ label: `Assistências (${this.playerMatchStats.assists}x)`, amount: aAmount });
+      }
+
+      const isCleanSheet = (p.position === 'Goleiro' || p.position === 'Zagueiro' || p.position.includes('Lateral') || p.position === 'Volante') && oppGoals === 0;
+      if (isCleanSheet) {
+        coinsEarned += 100;
+        breakdown.push({ label: 'Clean Sheet (Sem sofrer gols)', amount: 100 });
+      }
+
+      if (finalRating >= 9.0) {
+        coinsEarned += 200;
+        breakdown.push({ label: 'Atuação Espetacular (Nota ≥ 9.0)', amount: 200 });
+      } else if (finalRating >= 8.0) {
+        coinsEarned += 120;
+        breakdown.push({ label: 'Grande Desempenho (Nota ≥ 8.0)', amount: 120 });
+      } else if (finalRating >= 7.0) {
+        coinsEarned += 50;
+        breakdown.push({ label: 'Boa Atuação (Nota ≥ 7.0)', amount: 50 });
+      }
+
+      p.coins = (p.coins || 0) + coinsEarned;
+      this.matchRewards = {
+        totalCoins: coinsEarned,
+        breakdown: breakdown
+      };
 
       this.career.unlockAchievement('first_match');
       if (this.playerMatchStats.goals >= 1) this.career.unlockAchievement('first_goal');

@@ -10,6 +10,7 @@ class UIManager {
   init(career) {
     this.activeCareer = career;
     this.bindGlobalEvents();
+    this.bindMobileEvents();
     if (career) {
       this.updateHeaderAndSidebar();
       this.switchView('dashboard');
@@ -98,21 +99,26 @@ class UIManager {
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    this._updateMobileNavActive(viewName);
+    this.closeSidebar();
   }
 
   updateHeaderAndSidebar() {
     const career = this.activeCareer;
     const topBar = document.getElementById('topNavbar');
     const sidebar = document.getElementById('sidebarNav');
+    const mobileBottomNav = document.getElementById('mobileBottomNav');
 
     if (!career) {
       if (topBar) topBar.style.display = 'none';
       if (sidebar) sidebar.style.display = 'none';
+      if (mobileBottomNav) mobileBottomNav.classList.remove('career-active');
       return;
     }
 
     if (topBar) topBar.style.display = 'flex';
     if (sidebar) sidebar.style.display = 'flex';
+    if (mobileBottomNav) mobileBottomNav.classList.add('career-active');
 
     const club = career.getCurrentClub();
     const isPlayer = career.type === 'player';
@@ -145,7 +151,22 @@ class UIManager {
       headerClubBadge.textContent = club.logoText;
     }
 
+    this.updateCoinsDisplay();
     this.renderSidebarItems();
+  }
+
+  updateCoinsDisplay() {
+    const el = document.getElementById('hdrEntityCoins');
+    if (!el || !this.activeCareer) return;
+    const career = this.activeCareer;
+    if (career.type === 'player' && career.player) {
+      el.textContent = (career.player.coins || 0).toLocaleString('pt-BR');
+      const container = document.getElementById('hdrCoinContainer');
+      if (container) container.style.display = 'flex';
+    } else {
+      const container = document.getElementById('hdrCoinContainer');
+      if (container) container.style.display = 'none';
+    }
   }
 
   renderSidebarItems() {
@@ -289,5 +310,62 @@ class UIManager {
         this.showToast('Escala da Interface', `Tamanho ajustado para: ${labelMap[nextScale]}`, 'info');
       });
     }
+  }
+
+  // ─── MOBILE NAVIGATION ───────────────────────────────────────────
+  bindMobileEvents() {
+    // Hambúrguer abre sidebar
+    const btnMenu = document.getElementById('btnMobileMenu');
+    if (btnMenu) {
+      btnMenu.addEventListener('click', () => this.openSidebar());
+    }
+
+    // Botão X fecha sidebar
+    const btnClose = document.getElementById('btnSidebarClose');
+    if (btnClose) {
+      btnClose.addEventListener('click', () => this.closeSidebar());
+    }
+
+    // Backdrop fecha sidebar ao clicar fora
+    const backdrop = document.getElementById('sidebarBackdrop');
+    if (backdrop) {
+      backdrop.addEventListener('click', () => this.closeSidebar());
+    }
+
+    // Botão "Menu" na bottom nav abre sidebar
+    const btnMore = document.getElementById('btnMobileMore');
+    if (btnMore) {
+      btnMore.addEventListener('click', () => this.openSidebar());
+    }
+
+    // Botões da bottom nav navegam para as views
+    document.querySelectorAll('.mobile-nav-btn[data-view]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const view = btn.dataset.view;
+        if (view) this.switchView(view);
+      });
+    });
+  }
+
+  openSidebar() {
+    const sidebar = document.getElementById('sidebarNav');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    if (sidebar) sidebar.classList.add('open');
+    if (backdrop) backdrop.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeSidebar() {
+    const sidebar = document.getElementById('sidebarNav');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    if (sidebar) sidebar.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  _updateMobileNavActive(viewName) {
+    document.querySelectorAll('.mobile-nav-btn[data-view]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.view === viewName);
+    });
   }
 }

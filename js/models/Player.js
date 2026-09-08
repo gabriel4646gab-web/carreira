@@ -73,6 +73,46 @@ class Player {
       injuriesSuffered: 0,
       clubsHistory: []
     };
+
+    // Moedas de Carreira (obtidas por performance em partidas)
+    this.coins = config.coins !== undefined ? config.coins : 500;
+  }
+
+  // Retorna o custo de moedas progressivo para evoluir um atributo em +1
+  getAttributeUpgradeCost(attrKey) {
+    const currentVal = this.attributes[attrKey] || 50;
+    if (currentVal >= 99) return Infinity;
+    const baseDiff = Math.max(0, currentVal - 35);
+    const cost = 50 + Math.round(Math.pow(baseDiff, 1.75) * 3.8);
+    return cost;
+  }
+
+  // Evolui um atributo gastando moedas com validação anti-exploit
+  upgradeAttribute(attrKey) {
+    if (this.attributes[attrKey] === undefined) {
+      return { success: false, msg: 'Atributo não encontrado.' };
+    }
+    const currentVal = this.attributes[attrKey];
+    if (currentVal >= 99) {
+      return { success: false, msg: 'Atributo já está no nível máximo (99)!' };
+    }
+
+    const cost = this.getAttributeUpgradeCost(attrKey);
+    if ((this.coins || 0) < cost) {
+      return { success: false, msg: `Moedas insuficientes! Necessário: 🪙 ${cost.toLocaleString('pt-BR')} moedas.` };
+    }
+
+    this.coins -= cost;
+    this.attributes[attrKey] = Math.min(99, currentVal + 1);
+    this.updateOverall();
+
+    return {
+      success: true,
+      msg: `Atributo evoluído para ${this.attributes[attrKey]}!`,
+      newVal: this.attributes[attrKey],
+      newOvr: this.ovr,
+      coinsRemaining: this.coins
+    };
   }
 
   // Atualiza o OVR recalculando pelos atributos atuais

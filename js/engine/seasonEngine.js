@@ -37,7 +37,7 @@ class SeasonEngine {
     const opponents = career.leagueTable.filter(t => t.clubId !== club.id);
     const fixtures = [];
 
-    let totalRounds = competition.rounds || 38;
+    let totalRounds = competition.rounds || 14;
 
     for (let round = 1; round <= totalRounds; round++) {
       // Sorteia um adversário para a rodada
@@ -133,15 +133,21 @@ class SeasonEngine {
       seasonSummary.ovr = p.ovr;
       seasonSummary.marketValue = p.marketValue;
 
-      // Se foi campeão
+      // Recompensa de Moedas por Fim de Temporada
+      let seasonCoins = 300;
       if (isChampion) {
+        seasonCoins = 1500;
         p.careerStats.titles.push(`${career.seasonName} - Campeão da ${userClub.league} (${userClub.name})`);
         career.unlockAchievement('first_trophy');
+      } else if (tableRank <= 4) {
+        seasonCoins = 800;
       }
+      p.coins = (p.coins || 0) + seasonCoins;
+      career.addNews(`Premiação de Temporada: Você recebeu 🪙 ${seasonCoins.toLocaleString('pt-BR')} moedas pela campanha do clube (${tableRank}º colocado).`, 'Temporada');
 
-      // Verificações de conquistas de temporada
-      if (p.currentSeasonStats.goals >= 10) career.unlockAchievement('ten_goals_season');
-      if (p.currentSeasonStats.goals >= 25) career.unlockAchievement('twenty_five_goals_season');
+      // Verificações de conquistas de temporada (ajustadas para 14 jogos)
+      if (p.currentSeasonStats.goals >= 8) career.unlockAchievement('ten_goals_season');
+      if (p.currentSeasonStats.goals >= 16) career.unlockAchievement('twenty_five_goals_season');
       if (p.ovr >= 80) career.unlockAchievement('ovr_80');
       if (p.ovr >= 88) career.unlockAchievement('ovr_88');
       if (p.careerStats.goals >= 100) career.unlockAchievement('hundred_goals');

@@ -30,7 +30,7 @@ class DecisionEngine {
               actionType: 'gk_angle',
               primaryAttr: 'gkPositioning',
               secondaryAttr: 'gkReflexes',
-              difficulty: 54,
+              difficulty: 36,
               reason: 'Seu posicionamento está perfeito para cortar o chute no primeiro poste.'
             },
             {
@@ -41,7 +41,7 @@ class DecisionEngine {
               actionType: 'gk_slide',
               primaryAttr: 'gkOneOnOne',
               secondaryAttr: 'decisions',
-              difficulty: 66,
+              difficulty: 48,
               reason: 'Risco de cometer pênalti caso o atacante dê um toque sutil para o lado.'
             },
             {
@@ -70,7 +70,7 @@ class DecisionEngine {
               actionType: 'gk_punch',
               primaryAttr: 'gkHandling',
               secondaryAttr: 'strength',
-              difficulty: 55,
+              difficulty: 38,
               reason: 'Você tem a vantagem do alcance dos braços contra o zagueiro.'
             },
             {
@@ -81,7 +81,7 @@ class DecisionEngine {
               actionType: 'gk_catch',
               primaryAttr: 'gkHandling',
               secondaryAttr: 'composure',
-              difficulty: 68,
+              difficulty: 50,
               reason: 'Risco de soltar a bola no pé do atacante se houver trombada.'
             },
             {
@@ -113,7 +113,7 @@ class DecisionEngine {
               actionType: 'marking_contain',
               primaryAttr: 'marking',
               secondaryAttr: 'tacticalAwareness',
-              difficulty: 55,
+              difficulty: 38,
               reason: 'Você tem apoio do lateral que vem na cobertura pelo centro.'
             },
             {
@@ -124,7 +124,7 @@ class DecisionEngine {
               actionType: 'tackle_slide',
               primaryAttr: 'tackling',
               secondaryAttr: 'agility',
-              difficulty: 65,
+              difficulty: 48,
               reason: 'Se errar o tempo da bola, o rival sai cara a cara com o goleiro.'
             },
             {
@@ -135,7 +135,7 @@ class DecisionEngine {
               actionType: 'foul_tactical',
               primaryAttr: 'decisions',
               secondaryAttr: 'aggression',
-              difficulty: 48,
+              difficulty: 35,
               reason: 'Evita o gol iminente, mas resultará em cartão amarelo e falta perigosa.'
             },
             {
@@ -164,7 +164,7 @@ class DecisionEngine {
               actionType: 'header_clear',
               primaryAttr: 'heading',
               secondaryAttr: 'jumping',
-              difficulty: 56,
+              difficulty: 39,
               reason: 'Sua impulsão e envergadura dão vantagem sobre o atacante.'
             },
             {
@@ -175,7 +175,7 @@ class DecisionEngine {
               actionType: 'chest_control',
               primaryAttr: 'ballControl',
               secondaryAttr: 'composure',
-              difficulty: 74,
+              difficulty: 56,
               reason: 'Pressão alta na pequena área; qualquer erro é gol adversário.'
             },
             {
@@ -208,7 +208,7 @@ class DecisionEngine {
               actionType: 'pass_open',
               primaryAttr: 'shortPassing',
               secondaryAttr: 'vision',
-              difficulty: 54,
+              difficulty: 36,
               reason: 'Linha de passe totalmente limpa para o companheiro desmarcado.'
             },
             {
@@ -219,7 +219,7 @@ class DecisionEngine {
               actionType: 'dribble_cut',
               primaryAttr: 'dribbling',
               secondaryAttr: 'agility',
-              difficulty: 67,
+              difficulty: 49,
               reason: 'O zagueiro está bem plantado com o corpo na sua frente.'
             },
             {
@@ -248,7 +248,7 @@ class DecisionEngine {
               actionType: 'dribble_wide',
               primaryAttr: 'dribbling',
               secondaryAttr: 'pace',
-              difficulty: 55,
+              difficulty: 37,
               reason: 'O corredor esquerdo está totalmente desguarnecido.'
             },
             {
@@ -259,7 +259,7 @@ class DecisionEngine {
               actionType: 'pass_lob',
               primaryAttr: 'vision',
               secondaryAttr: 'shortPassing',
-              difficulty: 69,
+              difficulty: 50,
               reason: 'Exige calibragem perfeita para não dar tempo de cobertura ao zagueiro.'
             },
             {
@@ -288,7 +288,7 @@ class DecisionEngine {
               actionType: 'pass_switch',
               primaryAttr: 'longPassing',
               secondaryAttr: 'vision',
-              difficulty: 55,
+              difficulty: 36,
               reason: 'O ponta tem 20 metros de campo livre para invadir a área.'
             },
             {
@@ -299,7 +299,7 @@ class DecisionEngine {
               actionType: 'solo_run',
               primaryAttr: 'dribbling',
               secondaryAttr: 'composure',
-              difficulty: 72,
+              difficulty: 54,
               reason: 'A defesa está compactada e você corre sério risco de perder a posse.'
             },
             {
@@ -328,7 +328,7 @@ class DecisionEngine {
               actionType: 'quick_flick',
               primaryAttr: 'ballControl',
               secondaryAttr: 'decisions',
-              difficulty: 58,
+              difficulty: 40,
               reason: 'Tirar a bola da zona de pressão antes do contato físico.'
             },
             {
@@ -339,7 +339,7 @@ class DecisionEngine {
               actionType: 'shield_foul',
               primaryAttr: 'strength',
               secondaryAttr: 'composure',
-              difficulty: 64,
+              difficulty: 46,
               reason: 'O árbitro pode mandar o lance seguir se o contato for leve.'
             },
             {
@@ -350,7 +350,7 @@ class DecisionEngine {
               actionType: 'spin_dribble',
               primaryAttr: 'agility',
               secondaryAttr: 'dribbling',
-              difficulty: 78,
+              difficulty: 58,
               reason: 'Probabilidade altíssima de desarme e contra-ataque adversário.'
             },
             {
@@ -379,7 +379,7 @@ class DecisionEngine {
               actionType: 'chip_empty_net',
               primaryAttr: 'longShots',
               secondaryAttr: 'composure',
-              difficulty: 58,
+              difficulty: 40,
               reason: 'A meta está totalmente desguarnecida, basta acertar o alvo.'
             },
             {
@@ -390,7 +390,7 @@ class DecisionEngine {
               actionType: 'round_gk',
               primaryAttr: 'pace',
               secondaryAttr: 'dribbling',
-              difficulty: 66,
+              difficulty: 48,
               reason: 'Dá tempo do zagueiro retornar na cobertura sobre a linha do gol.'
             },
             {
@@ -401,7 +401,7 @@ class DecisionEngine {
               actionType: 'waste_pass',
               primaryAttr: 'decisions',
               secondaryAttr: 'tacticalAwareness',
-              difficulty: 40,
+              difficulty: 30,
               reason: 'Perde o momento de ouro de finalizar no gol sem goleiro.'
             }
           ]
@@ -421,8 +421,8 @@ class DecisionEngine {
               riskLabel: '🟢 Boa oportunidade',
               actionType: 'cross_low',
               primaryAttr: 'crossing',
-              secondaryAttr: 'curve',
-              difficulty: 56,
+              secondaryAttr: 'shortPassing',
+              difficulty: 38,
               reason: 'O companheiro ataca a bola em velocidade na frente do zagueiro.'
             },
             {
@@ -433,7 +433,7 @@ class DecisionEngine {
               actionType: 'cross_high',
               primaryAttr: 'crossing',
               secondaryAttr: 'vision',
-              difficulty: 65,
+              difficulty: 48,
               reason: 'O goleiro tem tempo de sair do chão para tentar socar a bola.'
             },
             {
@@ -443,8 +443,8 @@ class DecisionEngine {
               riskLabel: '🔴 Muito arriscada',
               actionType: 'zero_angle_shot',
               primaryAttr: 'finishing',
-              secondaryAttr: 'curve',
-              difficulty: 82,
+              secondaryAttr: 'composure',
+              difficulty: 62,
               reason: 'Ângulo praticamente nulo na linha lateral da grande área.'
             }
           ]
