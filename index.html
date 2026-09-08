@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-scale="normal">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Carreira de Futebol — Football Career Experience</title>
+  
+  <!-- Fontes e Ícones -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/views.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- MENU LATERAL (SIDEBAR) -->
+    <aside class="sidebar" id="sidebarNav" style="display: none;">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <i class="fa-solid fa-futbol"></i>
+        </div>
+        <div class="brand-text">
+          <h1>CAREER SIM</h1>
+          <span>Futebol Profissional</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul class="sidebar-nav-list" id="sidebarNavList">
+          <!-- Links gerados dinamicamente via JS conforme o tipo de carreira -->
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-outline btn-sm btn-block" id="btnToggleScale" title="Ajustar Tamanho da Interface">
+          <i class="fa-solid fa-display"></i> Escala da Tela
+        </button>
+        <button class="btn btn-outline btn-sm btn-block" id="btnSaveCareer">
+          <i class="fa-solid fa-floppy-disk"></i> Salvar Carreira
+        </button>
+        <button class="btn btn-danger btn-sm btn-block" id="btnNewCareer">
+          <i class="fa-solid fa-rotate-left"></i> Nova Carreira
+        </button>
+      </div>
+    </aside>
+
+    <!-- ÁREA PRINCIPAL -->
+    <div class="main-wrapper">
+      <!-- BARRA SUPERIOR (HEADER) -->
+      <header class="topbar" id="topNavbar" style="display: none;">
+        <div class="topbar-left">
+          <div class="topbar-badge-icon" id="hdrClubBadge">SAN</div>
+          <div class="topbar-entity-meta">
+            <h2 id="hdrEntityName">Gabriel Silva</h2>
+            <div class="topbar-entity-sub">
+              <span id="hdrEntityClub">Santista Praiano</span> • <span id="hdrEntityAge">18 anos</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="stat-pill-top ovr-pill">
+            <span class="lbl">Overall / Rep</span>
+            <span class="val" id="hdrEntityOvr">65</span>
+          </div>
+          <div class="stat-pill-top">
+            <span class="lbl">Valor / Orçamento</span>
+            <span class="val" id="hdrEntityValue">R$ 1.2M</span>
+          </div>
+          <div class="stat-pill-top">
+            <span class="lbl">Temporada</span>
+            <span class="val" id="hdrSeasonWeek">2026/27 • Rodada 1/38</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- ÁREA DE CONTEÚDO DINÂMICO -->
+      <main class="content-body" id="mainContentArea">
+        <!-- Renderizado dinamicamente via UIManager -->
+      </main>
+    </div>
+  </div>
+
+  <!-- CONTAINER DE NOTIFICAÇÕES (TOASTS) -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- MODAL GENÉRICO PARA EVENTOS NARRATIVOS, DIÁLOGOS E CONFIGURAÇÕES -->
+  <div class="modal-overlay" id="genericModalOverlay">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="genericModalTitle">Dilema em Campo</h3>
+        <button class="toast-close" onclick="window.uiManager.closeModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="genericModalBody">
+        <!-- Conteúdo dinâmico -->
+      </div>
+      <div class="modal-footer" id="genericModalFooter">
+        <!-- Botões de escolha gerados via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS DO JOGO (ORDEM DE DEPENDÊNCIA) -->
+  <!-- 1. Dados e Tabelas (Clubes e Jogadores Parodiados) -->
+  <script src="js/data/clubs.js"></script>
+  <script src="js/data/players.js"></script>
+  <script src="js/data/competitions.js"></script>
+  <script src="js/data/events.js"></script>
+  <script src="js/data/news.js"></script>
+  <script src="js/data/achievements.js"></script>
+
+  <!-- 2. Motores Visuais, Calendário, Áudio, Decisões e Simulação -->
+  <script src="js/engine/visualEngine.js"></script>
+  <script src="js/engine/calendarEngine.js"></script>
+  <script src="js/engine/audioEngine.js"></script>
+  <script src="js/engine/attributes.js"></script>
+  <script src="js/engine/decisionEngine.js"></script>
+  <script src="js/engine/newsEngine.js"></script>
+  <script src="js/engine/seasonEngine.js"></script>
+  <script src="js/engine/transferEngine.js"></script>
+  <script src="js/engine/matchEngine.js"></script>
+
+  <!-- 3. Modelos de Dados -->
+  <script src="js/models/Player.js"></script>
+  <script src="js/models/Manager.js"></script>
+  <script src="js/models/Career.js"></script>
+
+  <!-- 4. Armazenamento LocalStorage -->
+  <script src="js/storage.js"></script>
+
+  <!-- 5. Visualizadores de Interface (Views) -->
+  <script src="js/ui/views/creationView.js"></script>
+  <script src="js/ui/views/dashboardView.js"></script>
+  <script src="js/ui/views/activitiesView.js"></script>
+  <script src="js/ui/views/attributesView.js"></script>
+  <script src="js/ui/views/trainingView.js"></script>
+  <script src="js/ui/views/matchView.js"></script>
+  <script src="js/ui/views/transfersView.js"></script>
+  <script src="js/ui/views/squadTacticsView.js"></script>
+  <script src="js/ui/views/newsView.js"></script>
+  <script src="js/ui/views/statsView.js"></script>
+  <script src="js/ui/views/seasonView.js"></script>
+  <script src="js/ui/views/careerSummaryView.js"></script>
+  <script src="js/ui/views/achievementsView.js"></script>
+
+  <!-- 6. Gerenciador de UI e Inicialização -->
+  <script src="js/ui/uiManager.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
